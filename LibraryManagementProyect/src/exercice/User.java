@@ -2,6 +2,8 @@ package exercice;
 
 import java.time.LocalDate;
 
+import exceptions.InvalidUserException;
+
 public class User {
 	/*
 	 * Attributes:
@@ -24,15 +26,15 @@ public class User {
 	private boolean sanctioned;
 	private LocalDate sanctionEndDate;
 	
-	public User(String name, String email, String memberNumber, LocalDate registrationDate) {
+	public User(String name, String email, String memberNumber, LocalDate registrationDate) throws InvalidUserException {
 		this.name = name;
 		setEmail(email);
-		this.memberNumber = memberNumber;
+		setMemberNumber(memberNumber);
 		this.registrationDate = registrationDate;
 	}
 	
 	/**
-	 * Sets the sanction starting from the current day until the date resulting from adding the specified days to the book's return date.
+	 * Calcular cuantos dias se ha pasado de la fecha de entrega y calcular la fecha de sancion (traducir)
 	 * @param days
 	 */
 	public void sanction(int days) {
@@ -70,26 +72,33 @@ public class User {
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
-		String reg="[a-zA-Z].[a-zA-Z]@[a-zA-Z].[a-zA-Z]";
-		if(email.equals(reg)) {
+	public void setEmail(String email) throws InvalidUserException {
+		String reg="[a-zA-Z]\\.?[a-zA-Z]@[a-zA-Z]\\.[a-zA-Z]";
+		if(email.matches(reg)) {
 			this.email = email;
 		}else {
-			this.email="Error";
+			throw new InvalidUserException("Email not valid");
 		}
 	}
 	
 	public String getMemberNumber() {
 		return memberNumber;
 	}
-	public void setMemberNumber(String memberNumber) {
-		this.memberNumber = memberNumber;
+	public void setMemberNumber(String memberNumber) throws InvalidUserException {
+		String reg="SOC[0-9]{5}";
+		if(memberNumber.matches(reg)) {
+			this.memberNumber = memberNumber;
+		}else{
+			throw new InvalidUserException("Member number not valid");
+		}
 	}
 	
 	public LocalDate getRegistrationDate() {
 		return registrationDate;
 	}
 	public void setRegistrationDate(LocalDate registrationDate) {
+		String reg="[0-2][0-9]/\\d{2}/\\d{4}|3[0-1]/\\d{2}/\\d{4}";
+		LocalDate.parse(reg);
 		this.registrationDate = registrationDate;
 	}
 	
