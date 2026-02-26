@@ -31,8 +31,35 @@ public class User {
 		this.registrationDate = registrationDate;
 	}
 	
+	/**
+	 * Sets the sanction starting from the current day until the date resulting from adding the specified days to the book's return date.
+	 * @param days
+	 */
+	public void sanction(int days) {
+		
+	}
 	
+	/**
+	 * Cancels all sanctions for the user.
+	 */
+	public void liftSanction() {
+		setSanctioned(false);
+	}
 	
+	/**
+	 * Returns a boolean indicating if the user is currently sanctioned. 
+	 * @return
+	 */
+	public boolean isSanction() {
+		return this.sanctioned;
+	}
+	
+	@Override
+	public String toString() {
+		return "User Data [Name: "+name+", Email: "+email+", Member number: "+memberNumber+", Registration date: "
+				+registrationDate+", Sanctioned?"+sanctioned+", Sanction end date: "+sanctionEndDate+"]";
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -50,7 +77,6 @@ public class User {
 		}else {
 			this.email="Error";
 		}
-		
 	}
 	
 	public String getMemberNumber() {

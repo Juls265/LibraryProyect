@@ -2,7 +2,7 @@ package exceptions;
 
 public class InvalidUserException extends Exception{
 	
-	public InvalidUserException() {
+	public InvalidUserException(){
 		
 	}
 }
