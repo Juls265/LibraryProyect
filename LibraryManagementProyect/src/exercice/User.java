@@ -1,7 +1,6 @@
 package exercice;
 
 import java.time.LocalDate;
-
 import exceptions.InvalidUserException;
 
 public class User {
@@ -34,11 +33,20 @@ public class User {
 	}
 	
 	/**
-	 * Calcular cuantos dias se ha pasado de la fecha de entrega y calcular la fecha de sancion (traducir)
+	 * If there is a sanction, calculates the date that the sanction ends
 	 * @param days
 	 */
 	public void sanction(int days) {
-		
+		if(isSanction()) {
+			if(sanctionEndDate==null) {
+				sanctionEndDate=LocalDate.now().plusDays(days);
+			}else {
+				sanctionEndDate=sanctionEndDate.plusDays(days);
+			}
+			System.out.println("The end date of the sanction is: "+this.sanctionEndDate.toString());
+		}else {
+			System.out.println("There is no sanction.");
+		}
 	}
 	
 	/**
@@ -73,7 +81,7 @@ public class User {
 		return email;
 	}
 	public void setEmail(String email) throws InvalidUserException {
-		String reg="[a-zA-Z]\\.?[a-zA-Z]@[a-zA-Z]\\.[a-zA-Z]";
+		String reg="[a-zA-Z]+\\.?[a-zA-Z]+@[a-zA-Z]+\\.[a-zA-Z]+";
 		if(email.matches(reg)) {
 			this.email = email;
 		}else {
@@ -97,8 +105,6 @@ public class User {
 		return registrationDate;
 	}
 	public void setRegistrationDate(LocalDate registrationDate) {
-		String reg="[0-2][0-9]/\\d{2}/\\d{4}|3[0-1]/\\d{2}/\\d{4}";
-		LocalDate.parse(reg);
 		this.registrationDate = registrationDate;
 	}
 	
