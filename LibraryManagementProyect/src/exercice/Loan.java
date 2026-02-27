@@ -3,6 +3,8 @@ package exercice;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import exceptions.InvalidLoanException;
+
 public class Loan {
 	/*
 	 * Attributes: 
@@ -25,9 +27,8 @@ public class Loan {
 	private LocalDate dueDate;
 	private LocalDate actualReturnDate;
 	
-	public Loan(String bookCode, String bookTitle, User member, LocalDate loanDate) {
-		super();
-		this.bookCode = bookCode;
+	public Loan(String bookCode, String bookTitle, User member, LocalDate loanDate) throws InvalidLoanException {
+		setBookCode(bookCode);
 		this.bookTitle = bookTitle;
 		this.member = member;
 		this.loanDate = loanDate;
@@ -37,14 +38,20 @@ public class Loan {
 	 * Sets the return date.
 	 * Throws InvalidLoanException if the date is null or prior to the loan date.
 	 * @param date
+	 * @throws InvalidLoanException 
 	 */
-	public void registerReturn(LocalDate date) {
+	public void registerReturn(LocalDate date) throws InvalidLoanException {
 		Scanner keyboard=new Scanner(System.in);
 		System.out.println("Enter the date the book has been return: ");
 		String returnDate=keyboard.nextLine();
 		date=LocalDate.parse(returnDate);
-		
-		setActualReturnDate(date);
+		if(date==null) {
+			throw new InvalidLoanException("Error: date not entered.");
+		}else if (date.isBefore(loanDate)) {
+			throw new InvalidLoanException("Error: date not correct.");
+		}else {
+			setActualReturnDate(date);
+		}
 	}
 	
 	/**
@@ -52,17 +59,23 @@ public class Loan {
 	 * Returns zero if there is no delay.
 	 * @return
 	 */
-//	public int calculateDelayDays() {
-//		
-//	}
+	public int calculateDelayDays() {
+		int dateDiff;
+		if(actualReturnDate==null) {
+			dateDiff=dueDate.compareTo(LocalDate.now());
+		}else {
+			dateDiff=dueDate.compareTo(actualReturnDate);
+		}
+		return dateDiff;
+	}
 	
 	/**
 	 * Return a boolean. Compares dueDate with the current date.
 	 * @return
 	 */
-//	public boolean isOverdue() {
-//		
-//	}
+	public boolean isOverdue() {
+		return dueDate.equals(actualReturnDate);
+	}
 	
 	@Override
 	public String toString() {
@@ -72,8 +85,13 @@ public class Loan {
 	public String getBookCode() {
 		return bookCode;
 	}
-	public void setBookCode(String bookCode) {
-		this.bookCode = bookCode;
+	public void setBookCode(String bookCode) throws InvalidLoanException {
+		String reg="[A-Z]{3}[0-9]{4}";
+		if(bookCode.matches(reg)) {
+			this.bookCode = bookCode;
+		}else {
+			throw new InvalidLoanException("Book code not valid.");
+		}
 	}
 
 	public String getBookTitle() {
@@ -101,6 +119,7 @@ public class Loan {
 		return dueDate;
 	}
 	public void setDueDate(LocalDate dueDate) {
+		dueDate=loanDate.plusDays(14);
 		this.dueDate = dueDate;
 	}
 	
