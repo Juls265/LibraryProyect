@@ -26,10 +26,10 @@ public class User {
 	private LocalDate sanctionEndDate;
 	
 	public User(String name, String email, String memberNumber, LocalDate registrationDate) throws InvalidUserException {
-		this.name = name;
+		setName(name);
 		setEmail(email);
 		setMemberNumber(memberNumber);
-		this.registrationDate = registrationDate;
+		setRegistrationDate(registrationDate);
 	}
 	
 	/**
@@ -37,7 +37,7 @@ public class User {
 	 * @param days
 	 */
 	public void sanction(int days) {
-		if(isSanction()) {
+		if(isSanction()==true) {
 			if(sanctionEndDate==null) {
 				sanctionEndDate=LocalDate.now().plusDays(days);
 			}else {
@@ -73,7 +73,10 @@ public class User {
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public void setName(String name) throws InvalidUserException {
+		if(name==null) {
+			throw new InvalidUserException("No name given");
+		}
 		this.name = name;
 	}
 	
@@ -104,8 +107,12 @@ public class User {
 	public LocalDate getRegistrationDate() {
 		return registrationDate;
 	}
-	public void setRegistrationDate(LocalDate registrationDate) {
-		this.registrationDate = registrationDate;
+	public void setRegistrationDate(LocalDate registrationDate) throws InvalidUserException {
+		if(registrationDate==null) {
+			throw new InvalidUserException("No date given");
+		}else {
+			this.registrationDate = registrationDate;
+		}
 	}
 	
 	public boolean isSanctioned() {
