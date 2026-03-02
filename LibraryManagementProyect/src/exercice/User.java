@@ -75,7 +75,7 @@ public class User {
 	}
 	public void setName(String name) throws InvalidUserException {
 		if(name==null) {
-			throw new InvalidUserException("No name given");
+			throw new InvalidUserException("ERROR: No name given");
 		}
 		this.name = name;
 	}
@@ -88,7 +88,7 @@ public class User {
 		if(email.matches(reg)) {
 			this.email = email;
 		}else {
-			throw new InvalidUserException("Email not valid");
+			throw new InvalidUserException("ERROR: Email not valid");
 		}
 	}
 	
@@ -100,7 +100,7 @@ public class User {
 		if(memberNumber.matches(reg)) {
 			this.memberNumber = memberNumber;
 		}else{
-			throw new InvalidUserException("Member number not valid");
+			throw new InvalidUserException("ERROR: Member number not valid");
 		}
 	}
 	
@@ -109,7 +109,7 @@ public class User {
 	}
 	public void setRegistrationDate(LocalDate registrationDate) throws InvalidUserException {
 		if(registrationDate==null) {
-			throw new InvalidUserException("No date given");
+			throw new InvalidUserException("ERROR: No date given");
 		}else {
 			this.registrationDate = registrationDate;
 		}

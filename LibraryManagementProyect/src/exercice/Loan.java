@@ -22,7 +22,7 @@ public class Loan {
 	 */
 	private String bookCode;
 	private String bookTitle;
-	private User member;
+	private User libraryMember;
 	private LocalDate loanDate;
 	private LocalDate dueDate;
 	private LocalDate actualReturnDate;
@@ -30,7 +30,7 @@ public class Loan {
 	public Loan(String bookCode, String bookTitle, User member, LocalDate loanDate) throws InvalidLoanException {
 		setBookCode(bookCode);
 		setBookTitle(bookTitle);
-		this.member = member;
+		this.libraryMember = member;
 		setLoanDate(loanDate);;
 	}
 	
@@ -46,9 +46,9 @@ public class Loan {
 		String returnDate=keyboard.nextLine();
 		date=LocalDate.parse(returnDate);
 		if(date==null) {
-			throw new InvalidLoanException("Error: date not entered.");
+			throw new InvalidLoanException("ERROR: Date not entered.");
 		}else if (date.isBefore(loanDate)) {
-			throw new InvalidLoanException("Error: date not correct.");
+			throw new InvalidLoanException("ERROR: Date not correct.");
 		}else {
 			setActualReturnDate(date);
 		}
@@ -79,7 +79,7 @@ public class Loan {
 	
 	@Override
 	public String toString() {
-		return "Loan [Book code: "+bookCode+", Book title: "+bookTitle+", User: "+member+", Loan date: "+loanDate+", Due date: "+dueDate+", Actual return date: "+actualReturnDate+"]";
+		return "Loan [Book code: "+bookCode+", Book title: "+bookTitle+", User: "+libraryMember+", Loan date: "+loanDate+", Due date: "+dueDate+", Actual return date: "+actualReturnDate+"]";
 	}
 
 	public String getBookCode() {
@@ -90,7 +90,7 @@ public class Loan {
 		if(bookCode.matches(reg)) {
 			this.bookCode = bookCode;
 		}else {
-			throw new InvalidLoanException("Code not valid.");
+			throw new InvalidLoanException("ERROR: Code not valid.");
 		}
 	}
 
@@ -99,17 +99,17 @@ public class Loan {
 	}
 	public void setBookTitle(String bookTitle) throws InvalidLoanException {
 		if(bookTitle==null) {
-			throw new InvalidLoanException("No title given.");
+			throw new InvalidLoanException("ERROR: No title given.");
 		}else {
 			this.bookTitle = bookTitle;
 		}
 	}
 
 	public User getMember() {
-		return member;
+		return libraryMember;
 	}
 	public void setMember(User member) {
-		this.member = member;
+		this.libraryMember = member;
 	}
 
 	public LocalDate getLoanDate() {
@@ -117,9 +117,9 @@ public class Loan {
 	}
 	public void setLoanDate(LocalDate loanDate) throws InvalidLoanException {
 		if(loanDate==null){
-			throw new InvalidLoanException("No date given.");
+			throw new InvalidLoanException("ERROR: No date given.");
 		}else if(loanDate.isAfter(LocalDate.now())) {
-			throw new InvalidLoanException("Invalid Date.");
+			throw new InvalidLoanException("ERROR: Invalid Date.");
 		}else {
 			this.loanDate = loanDate;
 		}
