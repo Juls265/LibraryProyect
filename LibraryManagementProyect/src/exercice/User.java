@@ -66,8 +66,8 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User Data [Name: "+name+", Email: "+email+", Member number: "+memberNumber+", Registration date: "
-				+registrationDate+", Sanctioned?"+sanctioned+", Sanction end date: "+sanctionEndDate+"]";
+		return "User Data: {Name: "+name+", Email: "+email+", Member number: "+memberNumber+", Registration date: "
+				+registrationDate+", Sanctioned?"+sanctioned+", Sanction end date: "+sanctionEndDate+"}";
 	}
 
 	public String getName() {

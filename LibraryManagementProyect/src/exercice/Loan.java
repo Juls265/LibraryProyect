@@ -74,12 +74,20 @@ public class Loan {
 	 * @return
 	 */
 	public boolean isOverdue() {
-		return dueDate.equals(actualReturnDate);
+		if(!dueDate.equals(actualReturnDate)) {
+			if(dueDate.isBefore(actualReturnDate)) {
+				return false;
+			}else {
+				return true;
+			}
+		}else {
+			return false;
+		}
 	}
 	
 	@Override
 	public String toString() {
-		return "Loan [Book code: "+bookCode+", Book title: "+bookTitle+", User: "+libraryMember+", Loan date: "+loanDate+", Due date: "+dueDate+", Actual return date: "+actualReturnDate+"]";
+		return "Loan [Book code: "+bookCode+", Book title: "+bookTitle+", "+libraryMember+", Loan date: "+loanDate+", Due date: "+dueDate+", Actual return date: "+actualReturnDate+"]";
 	}
 
 	public String getBookCode() {

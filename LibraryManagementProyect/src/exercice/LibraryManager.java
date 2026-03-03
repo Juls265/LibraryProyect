@@ -67,7 +67,59 @@ public class LibraryManager {
 		loans.add(newLoan=new Loan(bookCode, bookTitle, libraryMember, loanDate));
 	}
 	
+	/**
+	 * Returns boolean. Locates the active loan for the book code and marks it as returned. If overdue, the user is sanctioned (1 day per day of delay).
+	 * Throws InvalidLoanException if the return date is before the loan date.
+	 * @param bookCode
+	 * @param returnDate
+	 * @return
+	 */
 //	public boolean returnBook(String bookCode, LocalDate returnDate) {
-//		
+//		if(loans.contains(bookCode)) {
+//			int num=loans.indexOf(bookCode);
+//			Loan xLoan=loans.get(num);
+//			xLoan.setActualReturnDate(returnDate);
+//			if(xLoan.isOverdue()) {
+//				
+//			}
+//		}else {
+//			return false;
+//		}
 //	}
+	
+	/**
+	 * Finds the user using the memberNumber
+	 * @param mumberNumber
+	 * @return
+	 */
+	public User findUser(String mumberNumber) {
+		if(users.contains(mumberNumber)) {
+			int num=users.indexOf(mumberNumber);
+			User foundUser=users.get(num);
+			return foundUser;
+		}else {
+			return null;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return "Users: "+users+"\nLoans: "+loans;
+	}
+	
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
+	}
+
+	public ArrayList<Loan> getLoans() {
+		return loans;
+	}
+	public void setLoans(ArrayList<Loan> loans) {
+		this.loans = loans;
+	}
+	
+	
 }
