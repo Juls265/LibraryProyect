@@ -31,7 +31,8 @@ public class Loan {
 		setBookCode(bookCode);
 		setBookTitle(bookTitle);
 		this.libraryMember = member;
-		setLoanDate(loanDate);;
+		setLoanDate(loanDate);
+		setDueDate(loanDate);
 	}
 	
 	/**
@@ -41,10 +42,6 @@ public class Loan {
 	 * @throws InvalidLoanException 
 	 */
 	public void registerReturn(LocalDate date) throws InvalidLoanException {
-		Scanner keyboard=new Scanner(System.in);
-		System.out.println("Enter the date the book has been return (dd/mm/aaaa): ");
-		String returnDate=keyboard.nextLine();
-		date=LocalDate.parse(returnDate);
 		if(date==null) {
 			throw new InvalidLoanException("ERROR: Date not entered.");
 		}else if (date.isBefore(loanDate)) {
@@ -60,13 +57,18 @@ public class Loan {
 	 * @return
 	 */
 	public int calculateDelayDays() {
-		int dateDiff;
-		if(actualReturnDate==null) {
-			dateDiff=dueDate.compareTo(LocalDate.now());
+		int year,numDays;
+		LocalDate today=LocalDate.now();
+		if(isOverdue()==false) {
+			return 0;
+		}else if(actualReturnDate==null) {
+			year=dueDate.getYear()-today.getYear();
+			numDays=dueDate.getDayOfYear()-today.getDayOfYear();
 		}else {
-			dateDiff=dueDate.compareTo(actualReturnDate);
+			year=dueDate.getYear()-actualReturnDate.getYear();
+			numDays=dueDate.getDayOfYear()-actualReturnDate.getDayOfYear();
 		}
-		return dateDiff;
+		return numDays+(year*365);
 	}
 	
 	/**
@@ -74,14 +76,26 @@ public class Loan {
 	 * @return
 	 */
 	public boolean isOverdue() {
-		if(!dueDate.equals(actualReturnDate)) {
-			if(dueDate.isBefore(actualReturnDate)) {
-				return false;
+		if(actualReturnDate==null) {
+			if(!dueDate.equals(LocalDate.now())) {
+				if(dueDate.isAfter(LocalDate.now())) {
+					return false;
+				}else {
+					return true;
+				}
 			}else {
-				return true;
+				return false;
 			}
 		}else {
-			return false;
+			if(!dueDate.equals(actualReturnDate)) {
+				if(dueDate.isAfter(actualReturnDate)) {
+					return false;
+				}else {
+					return true;
+				}
+			}else {
+				return false;
+			}
 		}
 	}
 	
@@ -145,6 +159,10 @@ public class Loan {
 		return actualReturnDate;
 	}
 	public void setActualReturnDate(LocalDate actualReturnDate) {
-		this.actualReturnDate = actualReturnDate;
+		if(actualReturnDate==null) {
+			this.actualReturnDate=null;
+		}else {
+			this.actualReturnDate = actualReturnDate;
+		}
 	}
 }

@@ -74,18 +74,18 @@ public class LibraryManager {
 	 * @param returnDate
 	 * @return
 	 */
-//	public boolean returnBook(String bookCode, LocalDate returnDate) {
-//		if(loans.contains(bookCode)) {
-//			int num=loans.indexOf(bookCode);
-//			Loan xLoan=loans.get(num);
-//			xLoan.setActualReturnDate(returnDate);
-//			if(xLoan.isOverdue()) {
-//				
-//			}
-//		}else {
-//			return false;
-//		}
-//	}
+	public boolean returnBook(String bookCode, LocalDate returnDate) {
+		if(loans.contains(bookCode)) {
+			int num=loans.indexOf(bookCode);
+			Loan xLoan=loans.get(num);
+			xLoan.setActualReturnDate(returnDate);
+			if(xLoan.isOverdue()) {
+				
+			}
+		}else {
+			return false;
+		}
+	}
 	
 	/**
 	 * Finds the user using the memberNumber
