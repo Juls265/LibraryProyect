@@ -73,18 +73,30 @@ public class LibraryManager {
 	 * @param bookCode
 	 * @param returnDate
 	 * @return
+	 * @throws InvalidLoanException 
 	 */
-	public boolean returnBook(String bookCode, LocalDate returnDate) {
+	public boolean returnBook(String bookCode, LocalDate returnDate) throws InvalidLoanException {
 		if(loans.contains(bookCode)) {
-			int num=loans.indexOf(bookCode);
-			Loan xLoan=loans.get(num);
-			xLoan.setActualReturnDate(returnDate);
-			if(xLoan.isOverdue()) {
-				
-			}
+			int numLoan=loans.indexOf(bookCode);
+			Loan xLoan=loans.get(numLoan);
+			
+			if(returnDate.isBefore(xLoan.getLoanDate())) {
+				throw new InvalidLoanException("Date not valid");
+			}else {
+				xLoan.setActualReturnDate(returnDate);
+				int numUser=users.indexOf(xLoan.getMember());
+				User xUser=users.get(numUser);
+				if(xLoan.isOverdue()) {
+					xUser.setSanctioned(true);
+					xUser.sanction(xLoan.calculateDelayDays());
+					return false;
+				}else {
+					return true;
+				}//overdue if-else
+			}//throw if-else
 		}else {
 			return false;
-		}
+		}//book if-else
 	}
 	
 	/**
@@ -120,6 +132,4 @@ public class LibraryManager {
 	public void setLoans(ArrayList<Loan> loans) {
 		this.loans = loans;
 	}
-	
-	
 }

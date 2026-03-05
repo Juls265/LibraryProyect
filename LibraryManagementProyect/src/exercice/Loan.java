@@ -62,11 +62,11 @@ public class Loan {
 		if(isOverdue()==false) {
 			return 0;
 		}else if(actualReturnDate==null) {
-			year=dueDate.getYear()-today.getYear();
-			numDays=dueDate.getDayOfYear()-today.getDayOfYear();
+			year=today.getYear()-dueDate.getYear();
+			numDays=today.getDayOfYear()-dueDate.getDayOfYear();
 		}else {
-			year=dueDate.getYear()-actualReturnDate.getYear();
-			numDays=dueDate.getDayOfYear()-actualReturnDate.getDayOfYear();
+			year=actualReturnDate.getYear()-dueDate.getYear();
+			numDays=actualReturnDate.getDayOfYear()-dueDate.getDayOfYear();
 		}
 		return numDays+(year*365);
 	}
